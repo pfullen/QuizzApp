@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Login Page </title>
+<script language = "javascript" type = "text/javascript">
+  window.alert("This is a password protected page. Enter your " +
+    "password to view it.");
+  function AuthenticatePassword(url, elementID) {
+    var Request = false;
+    var validationCode = "";
+    if (window.XMLHttpRequest) {
+      Request = new XMLHttpRequest();
+    } else if (window.ActiveXObject) {
+      Request = new ActiveXObject("Microsoft.XMLHTTP");
+    }
+    if(Request) {
+      var RequestObj = document.getElementById(elementID);
+      Request.open("GET", url, true);
+      Request.onreadystatechange = function() {
+        if (Request.readyState == 4 && Request.status == 200) {
+          validationCode = Request.responseText;         
+          LoadPage(validationCode)          
+        }
+      }
+      Request.send(null);
+    }
+  }
+  function LoadPage(code) {
+    if (code !== "Invalid Password: Access Denied.") {
+      window.location = code;
+    } else {
+      document.getElementById('MsgArea').innerHTML = code;
+      document.getElementById("inputField").value = "";
+    }
+  }
+  function ProcessLogin() {
+    password = document.getElementById("inputField").value;
+    document.getElementById('MsgArea').innerHTML = "Processing.";     
+    AuthenticatePassword("login.php?x=" + password, "MsgArea");
+  }
+</script>
+</head>
+<body>
+ <p><img src="login.jpg" alt="Login Logo"></p>
+    <p>
+      Enter your <em>password</em> and then click <em>Sign In</em> 
+      to log on to this Web site.
+    </p>
+    <form>
+      <input type="textfield" size="12" maxlength="12" value="" 
+        style="color:midnightblue; 
+        background-color:honeydew; font-size:14; font-weight:bold;
+        visibility:visible" id="inputField">
+      <input type = "button" value = "Submit" style="visibility:visible"
+        id="submitBtn" onclick="ProcessLogin()">
+    </form>
+    <div id="MsgArea"></div>  
+</body>
+</html>

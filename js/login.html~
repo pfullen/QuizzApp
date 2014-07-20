@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8" />
+<title>Login Page </title>
+</head>
+<body>
+ <p><img src="login.jpg" alt="Login Logo"></p>
+    <p>
+      Enter your <em>password</em> and then click <em>Sign In</em> 
+      to log on to this Web site.
+    </p>
+    <form>
+      <input type="textfield" size="12" maxlength="12" value="" 
+        style="color:midnightblue; 
+        background-color:honeydew; font-size:14; font-weight:bold;
+        visibility:visible" id="inputField">
+      <input type = "button" value = "Submit" style="visibility:visible"
+        id="submitBtn" onclick="ProcessLogin()">
+    </form>
+    <div id="MsgArea"></div>  
+</body>
+</html>
