@@ -56,14 +56,16 @@
 			<h2 id="feedback">What is the name of the former planet that is now classified a dwarf planet? </h2>
 
 			<form>
-				
-				<input  type = "radio" name="Answer_A" value="Pluto"> Mars <br>
-				<input type = "radio" name="Answer_A" value="Pluto"> Pluto <br>
-				<input  type = "radio" name="Answer_A" value="Pluto"> Saturn <br>
-				<input  type = "radio" name="Answer_A" value="Pluto"> Earth <br>
-      			<input type="submit" id="guessButton" class="button" name="submit" value="Submit"/>
-			</form>
 			
+				<input  type="hidden" name "Answer" value="0">
+				<input  type = "radio" name="Answer" value="A"> Pluto <br>
+				<input  type = "radio" name="Answer" value="B"> Earth <br>
+				<input  type = "radio" name="Answer" value="C"> Saturn <br>
+				<input  type = "radio" name="Answer" value="D"> Mars <br>
+      		
+      		<input type="submit" id="guessButton" class="button" name="submit" value="Submit"/> 
+			</form>
+		
       		<p>Question <span id="score">1</span> out of 20</p>
 			
 			<ul id="guessList" class="guessBox clearfix">
