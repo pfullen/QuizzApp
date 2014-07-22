@@ -57,11 +57,11 @@
 
 			<form>
 			
-				<input class="radioButton" type="hidden" name "Answer" value="0">
-				<input class="radioButton" type = "radio" name="Answer" value="A"> Pluto <br>
-				<input class="radioButton" type = "radio" name="Answer" value="B"> Earth <br>
-				<input class="radioButton"  type = "radio" name="Answer" value="C"> Saturn <br>
-				<input class="radioButton"  type = "radio" name="Answer" value="D"> Mars <br>
+				<input  type="hidden" name "Answer" value="0">
+				<input  type = "radio" name="Answer" value="A"> Pluto <br>
+				<input  type = "radio" name="Answer" value="B"> Earth <br>
+				<input  type = "radio" name="Answer" value="C"> Saturn <br>
+				<input  type = "radio" name="Answer" value="D"> Mars <br>
       		
       		<input type="submit" id="guessButton" class="button" name="submit" value="Submit"/> 
 			</form>

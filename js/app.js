@@ -11,8 +11,123 @@
   		$(".overlay").fadeOut(1000);
   	});
 
-// Quiz Object
 
+
+
+var quiz = {
+	
+	questions : ["Test Question 1", "Test Question 2",
+ 					"Test Question 3" , "Test Question 4",
+ 					"Test Question 5"],
+	answers : ["A", "p", "L", "*" , "g"],
+	possibleChoices : [["A", "B", "C", "D"] ,["z","p","q","t"], ["0","8","L","s"],["B","7","*","+"],["g","w","g","v"]],
+   i : [0],
+   
+	init: function() {
+		this.loadNextQuestion();
+		this.handleEvents();
+	}, 
+	
+	loadNextQuestion : function() {
+		
+		// perform logic
+		
+  
+		// newQuestionObject is supposed to be created here
+       newQuestionObject(questions,answers,possibleChoices) ;
+				      
+      }
+		this.setupQuestionForm(newQuestionObject);
+	}, 
+
+	setupQuestionForm : function() {
+		// create form here
+		$('#feedback').html(question);
+      $('input:radio[nameAnswer]').remove();
+          
+       $('form').html('<input type="hidden" name "Answer" value="0">' +  
+				'<input  type = "radio" name="Answer" value="A">' +  nextAnswers[0] + '<br>' +
+				'<input type = "radio" name="Answer" value="B">' + nextAnswers[1] + '<br>' +
+				'<input  type = "radio" name="Answer" value="C">' + nextAnswers[2]  + '<br>' +
+				'<input  type = "radio" name="Answer" value="D">' + nextAnswers [3]  + '<br>' +
+				'<input type="submit" id="guessButton" class="button" name="submit" value="Submit"/>' ); 
+      
+      		
+      	$('span').html(index);
+      	console.log("the index is " + index);
+				
+	},
+	
+	validateAnswer : function() {
+	if (studentAnswer == correctAnswer[i] ) {
+		return true; // or false, the answere
+	} else { 
+	return false;
+	}
+   },
+
+	submitEventHandler : function() {
+			 questionNum++		
+	
+         if (this.validateAnswer()) {
+			// add to correct answer
+			 correctAnswers++;
+			
+		}
+		//
+
+		//check if its the last question
+		if (questionNum == 5) {
+			
+			$('#feedback').html ("You guessed " + correctAnswers + "out of 5 answers correctly");			
+			}else {
+		
+		this.loadNextQuestion();
+			}
+	},
+	
+	handleEvents : function() {
+		// event handlers
+		$('form').submit(function(event){ 
+  			 event.preventDefault(); 
+  		});
+		
+		//submit button
+			$(document).on('click', 'input#guessBuutton', function (){
+			studentAnswer = $("input:radio[name=Answer]:checked").val();			 
+			 	console.log("TEst student Answer" + studentAnswer);
+          
+         if (studentAnswer != "") {
+     		submitEventHandler();
+       } 
+	
+})
+},
+
+	displayMessage : function(){
+		// display mesage here
+	}
+
+
+
+
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+// Quiz Object
+/*
 function Quiz (studentAnswer){
 
 this.studentAnswer = studentAnswer;
@@ -107,12 +222,13 @@ $('form').submit(function(event){
 })
 
 //  get the students answer and compare it to actual answer
-$('input#guessButton').click(function () {
-		 alert("u clicked me");
+//$('input#guessButton').click(function () {
+		$(document).on('click', 'input#guessBuutton', function (){
+		 
 		
 				 studentAnswer = $("input:radio[name=Answer]:checked").val();			 
-			 			   console.log("TEst student Answer" + studentAnswer);
-          $("#feedback").html(studentAnswer);
+			 	console.log("TEst student Answer" + studentAnswer);
+          
          console.log(studentAnswer);
        if (studentAnswer != ""  ){      
         var quiz1 = new Quiz(studentAnswer);
@@ -136,7 +252,7 @@ $('input#guessButton').click(function () {
          console.log("you clicked submit");
           $('#feedback').html(question);
          // $('form').text("");
-          $('input').remove();
+          $('input:radio[nameAnswer]').remove();
           
           $('form').html('<input type="hidden" name "Answer" value="0">' +  
 				'<input  type = "radio" name="Answer" value="A">' +  possibleAnswers[0] + '<br>' +
@@ -157,9 +273,9 @@ $('input#guessButton').click(function () {
           
          
           });
+         */ 
           
-          
-       
+       quiz.init();
         });
 
 
