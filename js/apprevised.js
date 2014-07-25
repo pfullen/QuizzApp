@@ -1,6 +1,48 @@
-
-$(document).ready(function(){
+ $(document).ready(function(){
 	
+	
+
+
+
+// Quiz Object
+
+function Quiz (){
+
+this.studentAnswer = studentAnswer;
+this.score =0;
+this.answered = 0;
+var questionNum = 1;
+var questions = Array();
+
+
+
+
+
+
+// init method
+this.init = function () {
+this.loadNextQuestion();
+this.handleEvents();
+
+}
+
+
+//  get Question Method     sets up question object
+this.questionObj = function(questions, possibleAnswers, correctAnswer) {
+
+this.questions = questions;
+this.possibleAnswers = possibleAnswers;
+this.correctAnswer = correctAnswer;
+
+
+
+}//   End of get Question Method
+
+
+
+
+//  handle events method
+this.handleEvents = function () {
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
     	$(".overlay").fadeIn(1000);
@@ -11,227 +53,105 @@ $(document).ready(function(){
   	$("a.close").click(function(){
   		$(".overlay").fadeOut(1000);
   	});
-
-// ****************** Functions *****************
-
-
-//  New Game Function
-
-  function randomNum () {
-  	
-  	
-  	var randomNum = Math.floor((Math.random()*100)+1);
-  	return randomNum;
-  	
-  	 	 }
-  	 
-
-  	 
- // User Guess Function 	 
-  	 function userGuess () {
-  	 
-  	 var valGuess = +document.getElementById("userGuess").value;
-  	 
-	  
-		
-
-  	 return valGuess;
-  	 }
-
-
-
-// Compare Results function
-	function compareResults (guess,randomNum) {
-    
-    var currentResult = guess - randomNum;
-    var correct = "You guessed the correct Number!!!"; 
-    var hot = "You are hot!!!";
-    var cold = "You are cold!!!";
-    var hotter = "You are getting hotter!!!";
-    var colder = "You are getting colder!!!";    
-    var same = "You guess is just as close as your last guess!";
-    var not_A_Num = "Your entry is not a number!";
-    var overLimit = "You need to enter a # between 1 & 100";
-    // convert current result  to absolute number 
-    
-    currentResult = Math.abs(currentResult); 
-    
-  
-
-   console.log(currentResult);
-   console.log( lastResult);
-   
-
-    if (getUserGuess > 100 ){
-         	
-         	    $('#feedback').html("You need to select a number between 1 & 100");  
-         	    $('input#userGuess').focus(); 
-         	
-         } else if (validate == true || getUserGuess =="")  {         
-       			 
-       			      			 
-       		 $('#feedback').html("You did not enter a Number.   Please type a number from 1 to 100!");  
-         	 $('input#userGuess').focus();
-         }  else {	
-        	 guessCount++ ;
-
-   
-   
-   
-   
-   
-    
-    if (currentResult===0) {
-   console.log(correct);
-    $('#feedback').html(correct + " Your score is " + guessCount);  
-       
-   $('#feedback').css("background-color","green");   
-   
-    
-    }    else if (lastResult === null) {    
-          // inner if to compare first result
-     if (currentResult <= 10) {
-   $('#feedback').html(hot);    
-    $('#feedback').css("background-color","red");
-    
- 
-	console.log(hot);
-   
-   } else if (currentResult >= 10) {
-    $('#feedback').html(cold);
-   $('#feedback').css("background-color","blue"); 
-
-	console.log(cold); 
-   }  // close inner if on first guess
 }
-       
-        //  if to compare subsequent guesses to see if player is getting hotter or colder
-      	
-         else if (currentResult < lastResult) {
-     		 $('#feedback').html(hotter);
-     		 $('#feedback').css("background-color","red");
-     		
-     		
-     		}   else if (currentResult > lastResult) {
-			  $('#feedback').html(colder); 
-			  $('#feedback').css("background-color","blue"); 
-			
-     		
-     		}
-         
-     lastResult = currentResult;
-     
-     }    
-     
-        
-             
-       
-      	 
-  	  	 
-  	 
-  	 
-  	 
-// reset function 
 
- /* function resetPage () {
-  	 var guessCount = 0;
-    var lastUserGuess =0;
-  	
-  	var userGuess =
-				$('input[name="userGuess"').val("");    //  reset user guess input field
-		
-		guessCount = 0;
- 			$('span').html(guessCount);
- 			
- 			$('#feedback').html('Make your Guess!');
- 			$('ul.guessBox').html('<li> Your Guesses: </li>');		
-				('span').html(0);
-  }
-  	 
-  	 
-  	 */
-  	 
- //  *************Main code*************
-    var guessCount = 0;
-    var lastResult =null;
-    $('input#userGuess').focus();    // focus on user text
-    
-  // get random number on startup
-  
- // var resetNow = resetPage ();
-  var getNum = randomNum();
-  console.log('The random # is ' + getNum);
-
-
-// start new Game when users clicks new game button
- $('.new').click(function () {
-    $('input#userGuess').focus();  
- 	 lastResult =null;
- 	 currentResult=null;
-    console.log('The Last Result # is ' + lastResult);
-  	 getNum = randomNum();
-    console.log('The random # is ' + getNum);
-  
- 	$('span').html(0);
+ $(document).on('click', 'input#guessBuutton', function (){
+ 	this.submitMethod();
  	
-    
- 	
- 	var userGuess = 
-				$('input[name="userGuess"').val("");
-				
-				guessCount = 0;
- 			$('span').html(guessCount);
- 			
- 			$('#feedback').html('Guess a Number between 1 & 100');
- 	
- 	      $('ul#guessList').html('');
- 	
- })
+ 	});
+// end of handle events method
 
 
-// Prevent default page refresh when submit is clicked
-$('form').submit(function(event){ 
-  			 event.preventDefault(); 
-  			
-          console.log(guessCount);
 
-})
+// submit event method
+   this.submitMethod = function () {
+   	   var studentAnswer = $("input:radio[name=Answer]:checked").val();		
+			this.validateAnswer (studentAnswer);
+			this.loadNextQuestion();
+			this.showQuizValues();
+		}
 
-// get value of user's guess when user clicks guess then compare to random number generated by computer
-$('#guessButton').click(function () {
-		 
-			var getUserGuess = userGuess();
-			var validate = isNaN(getUserGuess);
-        	
-        
-        	    $('span').html(guessCount);
-          var result = +(compareResults(getUserGuess,getNum));
-       
-          $('input[name="userGuess"').val("");
-         
-       	 $('ul#guessList').prepend(
- 	 			'<li>' + getUserGuess + '</li>'	 	     
- 	 			);	
-         }
-          
-    
-       	   $('#feedback').html(correct + " Your score is " + guessCount); 
-       
-   });
+// end of submit event method
+
+
+
+// display display quiz values message method
+this.showQuizValues = function () {
+	$('p').html("Qusetion" + answered + "out of " questions.length)
+
+
+}
+
+// end of display message method
 
 
 
 
 
-// Evaluate Guess against the random number generated by computer
+// validate answer method
+this.validateAnswer = function (studentAnswer) {
+	this.studentAnswer = studentAnswer;
+	console.log("this" + this.studentAnswer);
+	if (this.studentAnswer == questions [i][2] ) {
+		score++	
+	} 
+}  // close compareAnswer method
+
+
+
+
+
+// init  method   - rewrite code to init
+this.newQuiz = function () {
+ 	this.loadNextQuestion();
+   this.handleEvents();
+	} 
+ 	  	
+ // close newQuiz method
+
+
+
+
+// load question method
+
+this.loadNextQuestion = function (questionNumber) {
+	 newQuestion = questions[i][0];     // This cycles through the questions array and picks the first item in the array which is the question 
+	 $('#feedback').html(newQuestion);
+	 $('input:radio[name=Answer]').remove();  // remove prior questions possible answers
+	$('form').html('<input type="hidden" name "Answer" value="0">');
+	for (x=0; ; x < questions[i][1].length ; x++ ) {     // this loops through the possible answers
+		      $('form').append('<input  type = "radio" name="Answer" value="A">' +  questions[i].possibleAnswers[x] + '<br>');
+				}
+i++
+
+} // end of loadQuestion Method
+
+
+
+//  Create Quiz data
+
+// data   
+
+questions[0] = quiz.questionObj("This is test Question one",   ["A", "B" , "C", "D"], "B");
+questions[1] = quiz.questionObj ("This is test Question two",   ["Z", "X" , "E", "T"], "E");
+questions[2] = quiz.questionObj ("This is test Question Three", ["F", "K" , "L", "D"], "K");
+questions[3] = quiz.questionObj ("This is test Question Four",  ["T", "Q" , "C", "Y"], "T" );
+questions[4] = quiz.questionObj ("This is test Question Five",  ["R", "W" , "E", "P"], "P");
+
+
+// end of data
 
 
 
 
 
 
-
-
+};  // End of Quiz Object
+	var quiz1 = new quiz();
+	quiz1.init();
 });
+
+
+
 
 

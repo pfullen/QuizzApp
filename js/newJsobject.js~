@@ -1,17 +1,14 @@
- $(document).ready(function(){
-
-
 var quiz = {
 	
 	questions : [],
 	answers : [],
 	possibleChoices : [],
 
-  
-	init: function() {
+
+	init : function() {
 		this.loadNextQuestion();
 		this.handleEvents();
-	}, 
+	},
 	
 	loadNextQuestion : function() {
 		
@@ -51,5 +48,3 @@ var quiz = {
 }
 
 quiz.init();
-
-});

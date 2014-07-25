@@ -1,5 +1,49 @@
  $(document).ready(function(){
 	
+	
+
+
+
+// Quiz Object
+
+function Quiz (){
+
+var i = 0;
+this.score =0;
+this.answered = 0;
+var questionNum = 1;
+var newQuestions = Array();
+
+
+
+
+
+
+// init method
+this.init = function () {
+
+this.loadNextQuestion();
+this.handleEvents();
+
+}
+
+
+//  get Question Method     sets up question object
+this.questionObj = function(question, possibleAnswers, correctAnswer) {
+
+this.question = question;
+this.possibleAnswers = possibleAnswers;
+this.correctAnswer = correctAnswer;
+
+
+
+}//   End of get Question Method
+
+
+
+
+//  handle events method
+this.handleEvents = function () {
 	/*--- Display information modal box ---*/
   	$(".what").click(function(){
     	$(".overlay").fadeIn(1000);
@@ -10,278 +54,118 @@
   	$("a.close").click(function(){
   		$(".overlay").fadeOut(1000);
   	});
+}
+
+ $(document).on('click', 'input#guessBuutton', function (){
+ 	this.submitMethod();
+ 	
+ 	});
+// end of handle events method
 
 
 
-
-var quiz = {
-	
-	questions : ["Test Question 1", "Test Question 2",
- 					"Test Question 3" , "Test Question 4",
- 					"Test Question 5"],
-	answers : ["A", "p", "L", "*" , "g"],
-	possibleChoices : [["A", "B", "C", "D"] ,["z","p","q","t"], ["0","8","L","s"],["B","7","*","+"],["g","w","g","v"]],
-   i : [0],
-   
-	init: function() {
-		this.loadNextQuestion();
-		this.handleEvents();
-	}, 
-	
-	loadNextQuestion : function() {
-		
-		// perform logic
-		
-  
-		// newQuestionObject is supposed to be created here
-       newQuestionObject(questions,answers,possibleChoices) ;
-				      
-      }
-		this.setupQuestionForm(newQuestionObject);
-	}, 
-
-	setupQuestionForm : function() {
-		// create form here
-		$('#feedback').html(question);
-      $('input:radio[nameAnswer]').remove();
-          
-       $('form').html('<input type="hidden" name "Answer" value="0">' +  
-				'<input  type = "radio" name="Answer" value="A">' +  nextAnswers[0] + '<br>' +
-				'<input type = "radio" name="Answer" value="B">' + nextAnswers[1] + '<br>' +
-				'<input  type = "radio" name="Answer" value="C">' + nextAnswers[2]  + '<br>' +
-				'<input  type = "radio" name="Answer" value="D">' + nextAnswers [3]  + '<br>' +
-				'<input type="submit" id="guessButton" class="button" name="submit" value="Submit"/>' ); 
-      
-      		
-      	$('span').html(index);
-      	console.log("the index is " + index);
-				
-	},
-	
-	validateAnswer : function() {
-	if (studentAnswer == correctAnswer[i] ) {
-		return true; // or false, the answere
-	} else { 
-	return false;
-	}
-   },
-
-	submitEventHandler : function() {
-			 questionNum++		
-	
-         if (this.validateAnswer()) {
-			// add to correct answer
-			 correctAnswers++;
-			
+// submit event method
+   this.submitMethod = function () {
+   	   var studentAnswer = $("input:radio[name=Answer]:checked").val();		
+			this.validateAnswer (studentAnswer);
+			this.loadNextQuestion();
+			this.showQuizValues();
 		}
-		//
 
-		//check if its the last question
-		if (questionNum == 5) {
-			
-			$('#feedback').html ("You guessed " + correctAnswers + "out of 5 answers correctly");			
-			}else {
-		
-		this.loadNextQuestion();
-			}
-	},
-	
-	handleEvents : function() {
-		// event handlers
-		$('form').submit(function(event){ 
-  			 event.preventDefault(); 
-  		});
-		
-		//submit button
-			$(document).on('click', 'input#guessBuutton', function (){
-			studentAnswer = $("input:radio[name=Answer]:checked").val();			 
-			 	console.log("TEst student Answer" + studentAnswer);
-          
-         if (studentAnswer != "") {
-     		submitEventHandler();
-       } 
-	
-})
-},
-
-	displayMessage : function(){
-		// display mesage here
-	}
+// end of submit event method
 
 
 
-
+// display display quiz values message method
+this.showQuizValues = function () {
+	$('p').html("Qusetion" + answered + "out of " + questions.length);
 
 
 }
 
+// end of display message method
 
 
 
 
 
-
-
-
-
-
-
-// Quiz Object
-/*
-function Quiz (studentAnswer){
-
-this.studentAnswer = studentAnswer;
-
-
-
-var question = ["Test Question 1", "Test Question 2",
- 					"Test Question 3" , "Test Question 4",
- 					"Test Question 5"];
-										
-var correctAnswer = ["A", "p", "L", "*" , "g"];								
-			
-var possibleAnswers = [["A", "B", "C", "D"] ,["z","p","q","t"], ["0","8","L","s"],["B","7","*","+"],["g","w","g","v"]];
-
-
-// Compare answer method
-this.compareAnswer = function () {
-	console.log("the student answer in the object is " + studentAnswer);
-	console.log("The correct anawer in the object is " + correctAnswer[i]);
+// validate answer method
+this.validateAnswer = function (studentAnswer) {
+	this.studentAnswer = studentAnswer;
 	console.log("this" + this.studentAnswer);
-	if (this.studentAnswer == correctAnswer[i] ) {
-		return 1;	
-	} else {
-		return 0;
-	}
+	if (this.studentAnswer == questions [i][2] ) {
+		score++	
+	} 
 }  // close compareAnswer method
 
-// new quiz method
+
+
+
+
+// init  method   - rewrite code to init
 this.newQuiz = function () {
- 	
- 	location.reload(); 
- 	
- }; // close newQuiz method
+ 	this.loadNextQuestion();
+   this.handleEvents();
+	} 
+ 	  	
+ // close newQuiz method
+
+
 
 
 // load question method
 
-this.loadQuestion = function () {
-	
-var nextQuestion = question[i];
-var nextAnswers = possibleAnswers[i];
-
-i++
-return [nextQuestion ,nextAnswers, i];
+this.loadNextQuestion = function (questionNumber) {
+	 var newQuestion = this.question;     // This cycles through the questions array and picks the first item in the array which is the question 
+	 console.log(newQuestion[0]);
+	 console.log(newQuestion[1]);
+	 console.log(newQuestion [1][0]);
+	 console.log(newQuestion[1,1]);
+	 console.log(newQuestion[1,2]);
+	 $('#feedback').html(newQuestion[0]);
+//	 $('input:radio[name=Answer]').remove();  // remove prior questions possible answers
+	$('form').html('<input type="hidden" name "Answer" value="0">');
+	for (var x=0;  x < newQuestion[1].length ; x++ ) {     // this loops through the possible answers
+		      $('form').append('<input  type = "radio" name="Answer" value="A">' +  newQuestion[1][x] + '<br>');
+		      
+				}
+			console.log(newQuestion[1]);
+			i++
+			$('form').append('<input type="submit" id="guessButton" class="button" name="submit" value="Submit"/>');
 
 } // end of loadQuestion Method
+
+
+
+
+
+
+
 
 
 };  // End of Quiz Object
 
 
+// Main   
 
+	var questions = Array();
+	questions[0] =  ["This is test Question one",   ["A", "B" , "C", "D"], "B"];
+	questions[1] =  ["This is test Question two",  ["Z", "X" , "E", "T"], "E"];
+	questions[2] =  ["This is test Question Three", ["F", "K" , "L", "D"], "K"];
+	questions[3] =  ["This is test Question Four",  ["T", "Q" , "C", "Y"], "T"] ;
+	questions[4] =  ["This is test Question Five",  ["R", "W" , "E", "P"], "P"];
+	
+	
+	
+	
+	var quiz1 = new Quiz();
+	
+	quiz1.questionObj(questions[1]);
 
-
-
-	 
- //  *************Main code*************
-    
-    // initalize variables   & get first question on page load  
-    var i = 0;
-    var questionNum = 1;
+ 	quiz1.init();
    
-    var question = "";
-    var possibleAnswers = "";
-   
-    var studentAnswer;
-
-
-   
-    $('#feedback').html(question[i]);
-    var numCorrect =0;
-     
-  
-     
-
-
-// refresh page when when users clicks new game button
- $('.new').click(function () {
- 	
- 	quiz1.newQuiz();
- 
- 	
- });
-
-
-// Prevent default page refresh when submit is clicked
-$('form').submit(function(event){ 
-  			 event.preventDefault(); 
-  			
-       //   console.log(guessCount);
-
-})
-
-//  get the students answer and compare it to actual answer
-//$('input#guessButton').click(function () {
-		$(document).on('click', 'input#guessBuutton', function (){
-		 
-		
-				 studentAnswer = $("input:radio[name=Answer]:checked").val();			 
-			 	console.log("TEst student Answer" + studentAnswer);
-          
-         console.log(studentAnswer);
-       if (studentAnswer != ""  ){      
-        var quiz1 = new Quiz(studentAnswer);
-     		var result = quiz1.compareAnswer();
-          console.log("This is the result" + result);
-         
-			if (result == 0) {
-			console.log("incorrect");
-			
-			}  else if (result == 1){
-				console.log("correct");
-           numCorrect++  ;        
-          
-          }
-   }
-          
-			var loadNext = quiz1.loadQuestion( );
-         question = loadNext[0];
-         possibleAnswers = loadNext[1];
-         var index = loadNext[2];
-         console.log("you clicked submit");
-          $('#feedback').html(question);
-         // $('form').text("");
-          $('input:radio[nameAnswer]').remove();
-          
-          $('form').html('<input type="hidden" name "Answer" value="0">' +  
-				'<input  type = "radio" name="Answer" value="A">' +  possibleAnswers[0] + '<br>' +
-				'<input type = "radio" name="Answer" value="B">' + possibleAnswers[1] + '<br>' +
-				'<input  type = "radio" name="Answer" value="C">' + possibleAnswers[2]  + '<br>' +
-				'<input  type = "radio" name="Answer" value="D">' + possibleAnswers [3]  + '<br>' +
-				'<input type="submit" id="guessButton" class="button" name="submit" value="Submit"/>' ); 
-      
-      		
-      	$('span').html(index);
-      	console.log("the index is " + index);
-
-
-		
-          console.log(question);
-          console.log(possibleAnswers);
-          
-          
-         
-          });
-         */ 
-          
-       quiz.init();
-        });
-
-
-
-
-
+	
+});
 
 
 
