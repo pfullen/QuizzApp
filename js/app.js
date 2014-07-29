@@ -8,12 +8,12 @@
 
 function Quiz (){
 
-var i = 0;
-this.score =0;
-this.answered = 0;
+var studentAnswer;
 var questionNum = 1;
-var newQuestions = Array();
-
+var newQuestion;
+var anaswered=0;
+var score;
+var i;
 
 
 
@@ -21,10 +21,14 @@ var newQuestions = Array();
 
 // init method
 this.init = function () {
-
+    questionNum = 0;    
+    answered= 0;
+	 score = 0;
+    i = 0; 
+    x = 0;
 this.loadNextQuestion();
 this.handleEvents();
-
+this.showQuizValues();
 }
 
 
@@ -40,6 +44,26 @@ this.correctAnswer = correctAnswer;
 }//   End of get Question Method
 
 
+// submit event method
+  // this.submitMethod = function () {
+   	  
+//		}
+
+// end of submit event method
+
+// validate answer method
+this.validateAnswer = function (studentAnswer) {
+	this.studentAnswer = studentAnswer;
+	console.log("this" + this.studentAnswer);
+	
+	
+	console.log(questionNum);
+	console.log("I's value is " + i);
+	console.log ("Student answer is " + this.studentAnswer + " Real answer is " + this.question [i][2]);
+	if (this.studentAnswer == questions [i][2] ) {
+		score++	
+	}   i++
+}  // close compareAnswer method
 
 
 //  handle events method
@@ -54,33 +78,53 @@ this.handleEvents = function () {
   	$("a.close").click(function(){
   		$(".overlay").fadeOut(1000);
   	});
-}
+  	
+	$('form').submit(function(event){ 
+  			 event.preventDefault(); 
+  		});		
+            	
+  	$(document).on('click', 'input#guessButton', function (){
+ 		 studentAnswer = $("input:radio[name=Answer]:checked").val();		
+ 		 answered++
+ 		 questionNum++
+ 		 
+ 		 console.log("This is student answer on the click " + studentAnswer);
+ 		
+quiz1.validateAnswer(studentAnswer);
+  if (answered == 5){
+   
+   $('#feedback').html("You answered " + score + " out of " + newQuestion.length );
 
- $(document).on('click', 'input#guessBuutton', function (){
- 	this.submitMethod();
+   
+     } else { 
+     
+		 quiz1.loadNextQuestion();
+		// console.log("attempting to load the next question");
+		 quiz1.showQuizValues();
  	
+ 	}
+  	
  	});
+  	
+  	$('.new').click(function () {
+  	 Quiz.init();
+  	});
+  	
+};
+
+
 // end of handle events method
 
 
-
-// submit event method
-   this.submitMethod = function () {
-   	   var studentAnswer = $("input:radio[name=Answer]:checked").val();		
-			this.validateAnswer (studentAnswer);
-			this.loadNextQuestion();
-			this.showQuizValues();
-		}
-
-// end of submit event method
 
 
 
 // display display quiz values message method
 this.showQuizValues = function () {
-	$('p').html("Qusetion" + answered + "out of " + questions.length);
-
-
+	var progress = questionNum + 1;
+	$('p').html("Question " + progress + " out of " + newQuestion.length);
+  console.log("You answered " + answered + " questions");
+   
 }
 
 // end of display message method
@@ -89,23 +133,17 @@ this.showQuizValues = function () {
 
 
 
-// validate answer method
-this.validateAnswer = function (studentAnswer) {
-	this.studentAnswer = studentAnswer;
-	console.log("this" + this.studentAnswer);
-	if (this.studentAnswer == questions [i][2] ) {
-		score++	
-	} 
-}  // close compareAnswer method
 
 
 
 
 
-// init  method   - rewrite code to init
+// init  method   -    when new quiz is clicked
 this.newQuiz = function () {
- 	this.loadNextQuestion();
-   this.handleEvents();
+		
+ 	
+   this.init();
+   
 	} 
  	  	
  // close newQuiz method
@@ -116,21 +154,21 @@ this.newQuiz = function () {
 // load question method
 
 this.loadNextQuestion = function (questionNumber) {
-	 var newQuestion = this.question;     // This cycles through the questions array and picks the first item in the array which is the question 
-	 console.log(newQuestion[0]);
-	 console.log(newQuestion[1]);
-	 console.log(newQuestion [1][0]);
-	 console.log(newQuestion[1,1]);
-	 console.log(newQuestion[1,2]);
-	 $('#feedback').html(newQuestion[0]);
+	 newQuestion = this.question;     // This cycles through the questions array and picks the first item in the array which is the question 
+	// console.log(newQuestion[0]);
+	// console.log(newQuestion[1]);
+	// console.log(newQuestion [1][0]);
+//	 console.log(newQuestion[2][1]) ;
+	// console.log(newQuestion[1,2]);
+	 $('#feedback').html(newQuestion[i][0]);
 //	 $('input:radio[name=Answer]').remove();  // remove prior questions possible answers
 	$('form').html('<input type="hidden" name "Answer" value="0">');
-	for (var x=0;  x < newQuestion[1].length ; x++ ) {     // this loops through the possible answers
-		      $('form').append('<input  type = "radio" name="Answer" value="A">' +  newQuestion[1][x] + '<br>');
+	for (var x=0;  x < newQuestion[2][1].length ; x++ ) {     // this loops through the possible answers
+		      $('form').append('<input  type = "radio" name="Answer" value="' + x + '">' +  newQuestion[i][1][x] + '<br>');
 		      
 				}
-			console.log(newQuestion[1]);
-			i++
+		//	console.log(newQuestion[1]);
+		
 			$('form').append('<input type="submit" id="guessButton" class="button" name="submit" value="Submit"/>');
 
 } // end of loadQuestion Method
@@ -149,19 +187,19 @@ this.loadNextQuestion = function (questionNumber) {
 // Main   
 
 	var questions = Array();
-	questions[0] =  ["This is test Question one",   ["A", "B" , "C", "D"], "B"];
-	questions[1] =  ["This is test Question two",  ["Z", "X" , "E", "T"], "E"];
-	questions[2] =  ["This is test Question Three", ["F", "K" , "L", "D"], "K"];
-	questions[3] =  ["This is test Question Four",  ["T", "Q" , "C", "Y"], "T"] ;
-	questions[4] =  ["This is test Question Five",  ["R", "W" , "E", "P"], "P"];
+	questions[0] =  [["How Many Moons Does Saturn Have?"],   ["62", "31" , "57", "4"], ["1"]];
+	questions[1] =  [["How Long Does it Take Jupiter to Orbit the Sun?"],  ["100 Days", "335 Days" , "4332 Days", "12 Days"], ["2"]];
+	questions[2] =  [["What Type of Galaxy is the Milky Way?"], ["Boxed", "Spiral" , "Square", "Elliptical"], ["1"]];
+	questions[3] =  [["What is the closet star outside out solar system?"],   ["Wolf 359", "Lalande 21185 " , "Sirius", "Alpha Centauri"], ["3"]];
+	questions[4] =  [["How many tons of Hydrogen does the Sun burn each second?"],   ["10 million", "5 million" , "600 million", "125 million"], ["2"]];
 	
 	
 	
 	
 	var quiz1 = new Quiz();
 	
-	quiz1.questionObj(questions[1]);
-
+	quiz1.questionObj(questions);
+ // console.log("These are the Questions" + questions);
  	quiz1.init();
    
 	
