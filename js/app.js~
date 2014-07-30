@@ -9,12 +9,12 @@
 function Quiz (){
 
 var studentAnswer;
-var questionNum = 1;
+var questionNum;
 var newQuestion;
 var anaswered=0;
 var score;
 var i;
-
+var x;
 
 
 
@@ -59,10 +59,11 @@ this.validateAnswer = function (studentAnswer) {
 	
 	console.log(questionNum);
 	console.log("I's value is " + i);
-	console.log ("Student answer is " + this.studentAnswer + " Real answer is " + this.question [i][2]);
+	//console.log ("Student answer is " + this.studentAnswer + " Real answer is " + this.question [i][2]);
 	if (this.studentAnswer == questions [i][2] ) {
 		score++	
-	}   i++
+	} console.log(i);
+	i++;
 }  // close compareAnswer method
 
 
@@ -87,7 +88,7 @@ this.handleEvents = function () {
  		 studentAnswer = $("input:radio[name=Answer]:checked").val();		
  		 answered++
  		 questionNum++
- 		 
+ 		  
  		 console.log("This is student answer on the click " + studentAnswer);
  		
 quiz1.validateAnswer(studentAnswer);
@@ -107,7 +108,9 @@ quiz1.validateAnswer(studentAnswer);
  	});
   	
   	$('.new').click(function () {
-  	 Quiz.init();
+  	
+  		
+ this.init();
   	});
   	
 };
@@ -121,6 +124,7 @@ quiz1.validateAnswer(studentAnswer);
 
 // display display quiz values message method
 this.showQuizValues = function () {
+	
 	var progress = questionNum + 1;
 	$('p').html("Question " + progress + " out of " + newQuestion.length);
   console.log("You answered " + answered + " questions");
@@ -160,10 +164,12 @@ this.loadNextQuestion = function (questionNumber) {
 	// console.log(newQuestion [1][0]);
 //	 console.log(newQuestion[2][1]) ;
 	// console.log(newQuestion[1,2]);
+	console.log("X equals " + x);
+	console.log("i equals " + i );
 	 $('#feedback').html(newQuestion[i][0]);
 //	 $('input:radio[name=Answer]').remove();  // remove prior questions possible answers
 	$('form').html('<input type="hidden" name "Answer" value="0">');
-	for (var x=0;  x < newQuestion[2][1].length ; x++ ) {     // this loops through the possible answers
+	for ( x=0;  x < newQuestion[2][1].length ; x++ ) {     // this loops through the possible answers
 		      $('form').append('<input  type = "radio" name="Answer" value="' + x + '">' +  newQuestion[i][1][x] + '<br>');
 		      
 				}
@@ -191,7 +197,7 @@ this.loadNextQuestion = function (questionNumber) {
 	questions[1] =  [["How Long Does it Take Jupiter to Orbit the Sun?"],  ["100 Days", "335 Days" , "4332 Days", "12 Days"], ["2"]];
 	questions[2] =  [["What Type of Galaxy is the Milky Way?"], ["Boxed", "Spiral" , "Square", "Elliptical"], ["1"]];
 	questions[3] =  [["What is the closet star outside out solar system?"],   ["Wolf 359", "Lalande 21185 " , "Sirius", "Alpha Centauri"], ["3"]];
-	questions[4] =  [["This is test Question one"],   ["A", "B" , "C", "D"], ["2"]];
+	questions[4] =  [["How many tons of Hydrogen does the Sun burn each second?"],   ["10 million", "5 million" , "600 million", "125 million"], ["2"]];
 	
 	
 	
